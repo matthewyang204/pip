@@ -63,12 +63,7 @@ if os.name == 'nt' or (os.name == 'java' and os._name == 'nt'):
     # determine it relative to the current package
     DISTLIB_PACKAGE = __name__.rsplit('.', 1)[0]
 
-    WRAPPERS = {
-        r.name: r.bytes
-        for r in finder(DISTLIB_PACKAGE).iterator("")
-        if r.name.endswith(".exe")
-    }
-
+    WRAPPERS = {}
 
 def enquote_executable(executable):
     if ' ' in executable:
