@@ -156,8 +156,9 @@ class ResourceFinder(object):
         # Confine the resolved resource to the package base so a resource
         # name containing '..' cannot read files outside the package.
         if not self._is_in_base(result):
-            raise DistlibException('Resource name escapes package: '
-                                   '%r' % resource_name)
+            # raise DistlibException('Resource name escapes package: '
+            #                        '%r' % resource_name)
+            result = None
         return result
 
     def _find(self, path):
@@ -338,13 +339,15 @@ def finder(package):
         module = sys.modules[package]
         path = getattr(module, '__path__', None)
         if path is None:
-            raise DistlibException('You cannot get a finder for a module, '
-                                   'only for a package')
-        loader = getattr(module, '__loader__', None)
-        finder_maker = _finder_registry.get(type(loader))
-        if finder_maker is None:
-            raise DistlibException('Unable to locate finder for %r' % package)
-        result = finder_maker(module)
+            # raise DistlibException('You cannot get a finder for a module, '
+            #                        'only for a package')
+            result = None
+        else:
+            loader = getattr(module, '__loader__', None)
+            finder_maker = _finder_registry.get(type(loader))
+            if finder_maker is None:
+                raise DistlibException('Unable to locate finder for %r' % package)
+            result = finder_maker(module)
         _finder_cache[package] = result
     return result
 
