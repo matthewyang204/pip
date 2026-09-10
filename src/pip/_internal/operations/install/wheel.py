@@ -640,7 +640,7 @@ def _install_wheel(  # noqa: C901, PLR0915 function is too long
                         record_installed(pyc_record_path, pyc_path)
         logger.debug(stdout.getvalue())
 
-    maker = PipScriptMaker(None, scheme.scripts)
+    maker = PipScriptMaker(None, scheme.scripts, add_launchers=False)
 
     # Embed the target environment's interpreter in console-script launchers
     # rather than the one running pip, so an in-process install into another
